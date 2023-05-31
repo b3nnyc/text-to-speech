@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Text-to-Speech Form</title>
+  <link rel="stylesheet" href="./index.css">
+</head>
+
+<body>
+  <div class="container">
+    <h1>Text-to-Speech Form</h1>
+    <form id="synthesizeForm">
+      <label for="textInput">Text:</label>
+      <textarea type="text" id="textInput" name="text" placeholder="Paste text here..." required></textarea><br><br>
+      <div class="input-container">
+        <label for="playbackSpeedInput">Playback Speed:</label>
+        <input type="number" id="playbackSpeedInput" name="playbackSpeed" step="0.1" value="1" required><br><br>
+        <label for="voiceGender">Voice Gender:</label>
+        <select id="voiceGender">
+          <option value="MALE">Male</option>
+          <option value="FEMALE">Female</option>
+        </select><br><br>
+        <label for="voice">Voice:</label>
+        <select id="voice">
+        </select><br><br>
+      </div>
+      <button type="submit" id="synthesizeButton">Synthesize</button>
+    </form>
+    <div id="audioContainer">
+      <audio id="audioPlayer" controls style="display: none;"></audio>
+      <a id="downloadButton" href="" download style="display: none;">Download MP3</a>
+    </div>
+  </div>
+  <script>
+    const form = document.getElementById('synthesizeForm');
+    const audioPlayer = document.getElementById('audioPlayer');
+    const downloadButton = document.getElementById('downloadButton');
+    const synthesizeButton = document.getElementById('synthesizeButton');
+    const voiceGenderSelect = document.getElementById('voiceGender');
+    const voiceSelect = document.getElementById('voice');
+
+    const maleVoices = [
+      { name: 'en-US-Studio-M', displayName: 'Male Studio' },
+      { name: 'en-US-Neural2-J', displayName: 'Male Neural' },
+    ];
+    const femaleVoices = [
+      { name: 'en-US-Studio-O', displayName: 'Female Studio' },
+      { name: 'en-US-Neural2-H', displayName: 'Female Neural' },
+    ];
+
+    function populateVoices() {
+      const gender = voiceGenderSelect.value;
+      const voices = gender === 'MALE' ? maleVoices : femaleVoices;
+
+      voiceSelect.innerHTML = '';
+      voices.forEach((voice) => {
+        const option = document.createElement('option');
+        option.value = voice.name;
+        option.text = voice.displayName;
+        voiceSelect.appendChild(option);
+      });
+    }
+
+    voiceGenderSelect.addEventListener('change', populateVoices);
+
+    async function handleSubmit(event) {
+      event.preventDefault();
+      const formData = new FormData(form);
+      const payload = {
+        text: formData.get('text'),
+        playbackSpeed: formData.get('playbackSpeed'),
+        voiceGender: voiceGenderSelect.value,
+        voice: voiceSelect.value,
+      };
+
+      try {
+        const response = await fetch('http://localhost:3000/synthesize', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payload),
+        });
+
+        if (response && response.ok) {
+          const { audioFileUrl } = await response.json();
+
+          audioPlayer.src = audioFileUrl;
+          audioPlayer.style.display = 'block';
+
+          downloadButton.href = audioFileUrl;
+          downloadButton.style.display = 'block';
+
+          console.log('Text synthesis request sent successfully!');
+        } else {
+          console.error('Error:', response);
+        }
+      } catch (error) {
+        console.error('Error:', error.message);
+      }
+    }
+    form.addEventListener('submit', handleSubmit);
+    populateVoices();
+  </script>
+</body>
+
+</html>

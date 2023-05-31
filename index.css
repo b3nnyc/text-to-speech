@@ -1,0 +1,117 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;500&family=Poppins:wght@400;600&display=swap');
+
+* {
+  font-family: Poppins;
+}
+
+body {
+  background-color: aliceblue;
+}
+
+.container {
+  width: 40%;
+    margin: auto;
+}
+
+h1 {
+  width: max-content;
+    margin: 3rem auto;
+}
+
+#synthesizeForm {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  margin-bottom: 2rem;
+}
+
+#playbackSpeedInput {
+  width: 3rem;
+  text-align: center;
+}
+
+#synthesizeButton {
+  width: 10rem;
+  margin: auto;
+  padding: 1rem;
+}
+
+#audioContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 60%;
+  margin: 2rem auto;
+}
+
+#downloadButton {
+  font-weight: 600;
+  font-size: 1.5rem;
+}
+#downloadButton:hover {
+  transition: all .2s;
+  transform: scale(1.1);
+}
+
+select, input {
+  padding: .5rem;
+  margin-left: -1rem;
+}
+
+textarea {
+  width: 100%;
+  height: 150px;
+  padding: 12px 20px;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  background-color: #f8f8f8;
+  font-size: 16px;
+  resize: none;
+}
+
+button {
+  cursor: pointer;
+}
+
+/* CSS */
+#synthesizeButton {
+  appearance: button;
+  backface-visibility: hidden;
+  background-color: #405cf5;
+  border-radius: 6px;
+  border-width: 0;
+  box-shadow: rgba(50, 50, 93, .1) 0 0 0 1px inset,rgba(50, 50, 93, .1) 0 2px 5px 0,rgba(0, 0, 0, .07) 0 1px 1px 0;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  font-size: 100%;
+  height: 44px;
+  line-height: 1.15;
+  margin: 12px auto;
+  outline: none;
+  overflow: hidden;
+  padding: 0 25px;
+  position: relative;
+  text-align: center;
+  text-transform: none;
+  transform: translateZ(0);
+  transition: all .2s,box-shadow .08s ease-in;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  width: 30%;
+}
+
+#synthesizeButton:disabled {
+  cursor: default;
+}
+
+#synthesizeButton:focus {
+  box-shadow: rgba(50, 50, 93, .1) 0 0 0 1px inset, rgba(50, 50, 93, .2) 0 6px 15px 0, rgba(0, 0, 0, .1) 0 2px 2px 0, rgba(50, 151, 211, .3) 0 0 0 4px;
+}
